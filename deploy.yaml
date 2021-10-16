@@ -50,8 +50,7 @@
         use: apt
         state: present
 
-    - name: "Ubuntu: Install asdf"
-      when: ansible_os_family == "Debian"
+    - name: "asdf: Install asdf"
       git:
         repo: https://github.com/asdf-vm/asdf.git
         dest: "{{ ansible_env.HOME }}/.asdf"
@@ -61,7 +60,8 @@
       shell: |
           source {{ ansible_env.HOME }}/.asdf/asdf.sh
           asdf plugin-add {{ item.name }} {{ item.repo }}
-          [[ version = version{{ item.version }} ]] || asdf install {{ item.name }} {{ item.version }} && asdf global {{ item.name }} {{ item.version }}
+          [[ version = version{{ item.version }} ]] || asdf install {{ item.name }} {{ item.version }}
+          [[ version = version{{ item.version }} ]] || asdf global {{ item.name }} {{ item.version }}
       args:
         executable: /usr/bin/bash
       with_items:

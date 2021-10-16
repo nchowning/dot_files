@@ -11,12 +11,9 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # Activate asdf
-if [[ "$OSTYPE" == darwin* ]]; then
-    . /usr/local/opt/asdf/libexec/asdf.sh
-else
-    . $HOME/.asdf/asdf.sh
-fi
+. $HOME/.asdf/asdf.sh
 
+# Activate virtualenvwrapper
 source $(asdf where python)/bin/virtualenvwrapper.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.

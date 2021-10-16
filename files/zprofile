@@ -45,20 +45,17 @@ typeset -gU cdpath fpath mailpath path
 #
 
 # Set the list of directories that Zsh searches for programs.
+mac_path=()
 if [[ "$OSTYPE" == darwin* ]]; then
     mac_path=(
       ${HOME}/.local/bin
       /usr/local/opt/{curl,coreutils,findutils,gnu-tar,gnu-sed,grep}/libexec/gnubin
-    )
-else
-    linux_path=(
     )
 fi
 
 path=(
   /usr/local/{bin,sbin}
   $mac_path
-  $linux_path
   $path
 )
 
