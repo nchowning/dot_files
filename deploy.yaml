@@ -6,15 +6,17 @@
         - { "name": "poetry", "repo": "", "version": "1.1.11" }
 
     - dot_files:
-        - { "source": "gitconfig", "dest": ".gitconfig" }
-        - { "source": "p10k.zsh",  "dest": ".p10k.zsh" }
-        - { "source": "tmux.conf", "dest": ".tmux.conf" }
-        - { "source": "vimrc",     "dest": ".vimrc" }
-        - { "source": "zpreztorc", "dest": ".zpreztorc" }
-        - { "source": "zprofile",  "dest": ".zprofile" }
-        - { "source": "zshrc",     "dest": ".zshrc" }
+        - { "source": "authorized_keys", "dest": ".ssh/authorized_keys" }
+        - { "source": "gitconfig",       "dest": ".gitconfig" }
+        - { "source": "p10k.zsh",        "dest": ".p10k.zsh" }
+        - { "source": "tmux.conf",       "dest": ".tmux.conf" }
+        - { "source": "vimrc",           "dest": ".vimrc" }
+        - { "source": "zpreztorc",       "dest": ".zpreztorc" }
+        - { "source": "zprofile",        "dest": ".zprofile" }
+        - { "source": "zshrc",           "dest": ".zshrc" }
 
     - home_directories:
+        - ".ssh"
         - ".vim"
         - ".vim/autoload"
 

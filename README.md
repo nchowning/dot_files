@@ -2,5 +2,5 @@
 These are my new dot files
 
 # TODO
-- Add SSH public keys
+- Install mac homebrew packages
 - Better user configuration (changing shell to zsh etc...)
