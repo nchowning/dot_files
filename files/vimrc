@@ -1,0 +1,70 @@
+" Set vim-plug plugin path
+call plug#begin('~/.vim/plugged')
+
+" Plugins
+Plug 'tpope/vim-markdown'
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+Plug 'hashivim/vim-terraform'
+Plug 'vim-airline/vim-arifline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'luchermitte/vimfold4c'
+
+call plug#end()
+
+filetype plugin indent on
+syntax on
+
+" Tab settings
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+let mapleader=" "
+
+" Fancy line numbering
+set number
+set relativenumber
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber
+function! NumberToggle()
+    if(&relativenumber == 1)
+        set norelativenumber
+    else
+        set relativenumber
+    endif
+endfunc
+map <Leader>n :call NumberToggle()<CR>
+
+" Underline cursor line
+set cursorline!
+map <Leader>c :set cursorline!<CR>
+
+" Toggle paste mode
+function! PasteToggle()
+    if(&paste == 1)
+        set nopaste
+    else
+        set paste
+    endif
+endfunc
+map <Leader>p :call PasteToggle()<CR>
+" I usually want out of paste mode as soon as I exit insert
+autocmd InsertLeave * :set nopaste
+
+" Slam jk or kj to quickly get out of insert mode
+inoremap jk <esc>
+inoremap kj <esc>
+
+" Python-mode options
+let g:pymode_folding = 1
+let g:pymode_lint_on_fly = 1
+let g:pymode_lint_checkers = ['pyflakes', 'pep8']
+let g:pymode_options_max_line_length = 100
+let g:pymode_lint_options_pep8 = {'max_line_length': g:pymode_options_max_line_length}
+let g:pymode_options_colorcolumn = 1
+
+" Markdown options
+let g:markdown_folding = 1
+
+" Terraform options
+let g:terraform_fold_sections = 1

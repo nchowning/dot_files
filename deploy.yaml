@@ -1,0 +1,94 @@
+---
+- hosts: localhost
+  vars:
+    - asdf_plugins:
+        - { "name": "python", "repo": "", "version": "3.10.0" }
+        - { "name": "poetry", "repo": "", "version": "1.1.11" }
+
+    - dot_files:
+        - { "source": "gitconfig", "dest": ".gitconfig" }
+        - { "source": "p10k.zsh",  "dest": ".p10k.zsh" }
+        - { "source": "tmux.conf", "dest": ".tmux.conf" }
+        - { "source": "vimrc",     "dest": ".vimrc" }
+        - { "source": "zpreztorc", "dest": ".zpreztorc" }
+        - { "source": "zprofile",  "dest": ".zprofile" }
+        - { "source": "zshrc",     "dest": ".zshrc" }
+
+    - home_directories:
+        - ".vim"
+        - ".vim/autoload"
+
+    - ubuntu:
+        packages:
+          - git
+          - libffi-dev
+          - libssl-dev
+          - tmux
+          - vim
+          - zsh
+
+  tasks:
+    - name: Setup home directories
+      file:
+        name: "{{ ansible_env.HOME }}/{{ item }}"
+        state: directory
+      with_items:
+        "{{ home_directories }}"
+
+    - name: Add config files
+      copy:
+        src: "files/{{ item.source }}"
+        dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
+        mode: 0660
+      with_items: "{{ dot_files }}"
+
+    - name: "Ubuntu: Install packages"
+      become: yes
+      when: ansible_os_family == "Debian"
+      package:
+        name: "{{ ubuntu['packages'] }}"
+        use: apt
+        state: present
+
+    - name: "Ubuntu: Install asdf"
+      when: ansible_os_family == "Debian"
+      git:
+        repo: https://github.com/asdf-vm/asdf.git
+        dest: "{{ ansible_env.HOME }}/.asdf"
+        version: v0.8.1
+
+    - name: "asdf: Install plugins & packages"
+      shell: |
+          source {{ ansible_env.HOME }}/.asdf/asdf.sh
+          asdf plugin-add {{ item.name }} {{ item.repo }}
+          [[ version = version{{ item.version }} ]] || asdf install {{ item.name }} {{ item.version }} && asdf global {{ item.name }} {{ item.version }}
+      args:
+        executable: /usr/bin/bash
+      with_items:
+        "{{ asdf_plugins }}"
+
+    - name: "python: Get python path"
+      shell: |
+          source {{ ansible_env.HOME }}/.asdf/asdf.sh
+          asdf where python
+      args:
+        executable: /usr/bin/bash
+      register: python_path
+
+    - name: "python: Install python packages"
+      pip:
+        name:
+          - ansible
+          - virtualenv
+          - virtualenvwrapper
+        executable: "{{ python_path.stdout }}/bin/pip"
+
+    - name: "vim: Install vim-plug"
+      get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
+        mode: 0644
+        force: yes
+
+    - name: "vim: Install Plugins"
+      command: "vim +PlugUpdate +qall"
