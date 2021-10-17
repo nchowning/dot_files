@@ -7,7 +7,7 @@ Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'hashivim/vim-terraform'
 Plug 'vim-airline/vim-arifline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'luchermitte/vimfold4c'
+Plug 'octol/vim-cpp-enhanced-highlight'
 
 call plug#end()
 
@@ -68,3 +68,6 @@ let g:markdown_folding = 1
 
 " Terraform options
 let g:terraform_fold_sections = 1
+
+" C++ options
+autocmd FileType cpp setlocal foldmethod=syntax
