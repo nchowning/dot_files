@@ -30,6 +30,18 @@
           - zsh
 
   tasks:
+    - name: Clean config
+      when: clean is defined and clean
+      block:
+        - name: Clean dot files
+          file:
+            path: "{{ ansible_env.HOME }}/{{ item.dest }}"
+            state: absent
+          with_items:
+            - "{{ dot_files }}"
+            - { "dest": ".asdf" }
+            - { "dest": ".vim" }
+
     - name: Setup home directories
       file:
         name: "{{ ansible_env.HOME }}/{{ item }}"
