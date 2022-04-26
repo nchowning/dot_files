@@ -85,15 +85,20 @@
       - zsh
 
     - dot_files:
-      - { "source": "authorized_keys", "dest": ".ssh/authorized_keys" }
-      - { "source": "gitconfig",       "dest": ".gitconfig" }
-      - { "source": "p10k.zsh",        "dest": ".p10k.zsh" }
-      - { "source": "Synergy.conf",    "dest": ".config/Synergy/Synergy.conf" }
-      - { "source": "tmux.conf",       "dest": ".tmux.conf" }
-      - { "source": "vimrc",           "dest": ".vimrc" }
-      - { "source": "zpreztorc",       "dest": ".zpreztorc" }
-      - { "source": "zprofile",        "dest": ".zprofile" }
-      - { "source": "zshrc",           "dest": ".zshrc" }
+      - source: "authorized_keys"
+        dest:   ".ssh/authorized_keys"
+      - source: "aws"
+        dest:   ".bin/aws"
+        mode:   "0750"
+      - source: "gitconfig"
+      - source: "p10k.zsh"
+      - source: "Synergy.conf"
+        dest:   ".config/Synergy/Synergy.conf"
+      - source: "tmux.conf"
+      - source: "vimrc"
+      - source: "zpreztorc"
+      - source: "zprofile"
+      - source: "zshrc"
 
     - home_directories:
       - ".bin"
@@ -110,7 +115,7 @@
       block:
         - name: Clean dot files
           file:
-            path: "{{ ansible_env.HOME }}/{{ item.dest }}"
+            path: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + item.source) }}"
             state: absent
           with_items:
             - "{{ dot_files }}"
@@ -134,8 +139,8 @@
     - name: Add config files
       copy:
         src: "files/{{ item.source }}"
-        dest: "{{ ansible_env.HOME }}/{{ item.dest }}"
-        mode: 0660
+        dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + item.source) }}"
+        mode: "{{ item.mode | default('0660') }}"
       with_items: "{{ dot_files }}"
 
     - name: "p10k: Download MesloLGS fonts"
