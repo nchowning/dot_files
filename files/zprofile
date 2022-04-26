@@ -48,12 +48,13 @@ typeset -gU cdpath fpath mailpath path
 mac_path=()
 if [[ "$OSTYPE" == darwin* ]]; then
     mac_path=(
-      ${HOME}/.local/bin
+      ${HOME}/.bin
       /usr/local/opt/{curl,coreutils,findutils,gnu-tar,gnu-sed,grep}/libexec/gnubin
     )
 fi
 
 path=(
+  ${HOME}/.bin
   /usr/local/{bin,sbin}
   $mac_path
   $path
