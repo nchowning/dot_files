@@ -1,0 +1,11 @@
+# General
+alias bm="branch_merged"
+alias efuse="cd ~/workspace/efuse"
+
+# Terraform
+alias tf="terraform"
+alias tfp="terraform plan"
+
+# Kubernetes
+alias kc="kubectl"
+alias kcx="kubectx"

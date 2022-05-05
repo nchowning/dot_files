@@ -85,20 +85,21 @@
       - zsh
 
     - dot_files:
-      - source: "authorized_keys"
-        dest:   ".ssh/authorized_keys"
-      - source: "aws"
-        dest:   ".bin/aws"
-        mode:   "0750"
-      - source: "gitconfig"
-      - source: "p10k.zsh"
-      - source: "Synergy.conf"
-        dest:   ".config/Synergy/Synergy.conf"
-      - source: "tmux.conf"
-      - source: "vimrc"
-      - source: "zpreztorc"
-      - source: "zprofile"
-      - source: "zshrc"
+      - source:    "authorized_keys"
+        dest:      ".ssh/authorized_keys"
+      - source:    "aws"
+        dest:      ".bin/aws"
+        mode:      "0750"
+      - source:    "gitconfig"
+      - source:    "p10k.zsh"
+      - source:    "Synergy.conf"
+        dest:      ".config/Synergy/Synergy.conf"
+      - source:    "tmux.conf"
+      - source:    "vimrc"
+      - source:    "zpreztorc"
+      - source:    "zprofile"
+      - source:    "zshrc"
+      - source:    "zshrc.d/"
 
     - home_directories:
       - ".bin"
@@ -153,6 +154,10 @@
         - "MesloLGS NF Bold"
         - "MesloLGS NF Italic"
         - "MesloLGS NF Bold Italic"
+
+    - name: End play if only updating config files
+      meta: end_play
+      when: dots_only is defined and dots_only
 
     - name: "Ubuntu: Configure ubuntu-like systems"
       when: ansible_os_family == "Debian"

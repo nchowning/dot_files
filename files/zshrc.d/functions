@@ -1,0 +1,20 @@
+#!/bin/bash
+
+branch_merged () {
+    if ! (git -C . rev-parse 2>/dev/null); then
+        echo "Not in a git repo - ${PWD}"
+        return
+    fi
+
+    BRANCH="$(git symbolic-ref --short HEAD)"
+
+    git checkout -b "merged_${BRANCH}"
+    git branch -D "${BRANCH}"
+
+    if (git checkout main 2> /dev/null); then
+        git pull origin main
+    else
+        git checkout master
+        git pull origin master
+    fi
+}

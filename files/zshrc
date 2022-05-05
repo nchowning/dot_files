@@ -15,10 +15,14 @@ fi
 
 # Activate virtualenvwrapper
 source $(asdf where python)/bin/virtualenvwrapper.sh
+export VIRTUALENVWRAPPER_VIRTUALENV=$(asdf where python)/bin/virtualenv
 
 # Use gnome keyring ssh-agent
 export SSH_AGENT_LAUNGHER=gnome-keyring
 export SSH_AUTH_SOCK=/run/user/${UID}/keyring/ssh
+
+# Pull in any config files in ~/.zshrc.d
+[[ -d ~/.zshrc.d ]] && for file in ~/.zshrc.d/*;do source ${file};done
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
