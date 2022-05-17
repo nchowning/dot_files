@@ -181,10 +181,10 @@
             state: present
             update_cache: yes
 
-        - name: "Ubuntu: Install Synergy"
-          become: yes
-          apt:
-            deb: "https://synchronized.love/files/synergy_1.14.3-stable.218fa800_ubuntu21_amd64.deb"
+        # - name: "Ubuntu: Install Synergy"
+        #   become: yes
+        #   apt:
+        #     deb: "https://synchronized.love/files/synergy_1.14.3-stable.218fa800_ubuntu21_amd64.deb"
 
         - name: "Ubuntu: Apply dconf settings"
           dconf:

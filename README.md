@@ -10,3 +10,4 @@ These are my new dot files
 - Configure Gnome/DE stuff
   - Desktop background
 - Configure openssh-server
+- Install & update `apt-file` database
