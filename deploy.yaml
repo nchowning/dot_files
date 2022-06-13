@@ -5,8 +5,10 @@
     - asdf_plugins:
       - {"name": "helm",      "version": "latest"}
       - {"name": "kubectl",   "version": "latest"}
+      - {"name": "nodejs",    "version": "16.15.0"}
       - {"name": "python",    "version": "3.10.2"}
       - {"name": "poetry",    "version": "1.1.13"}
+      - {"name": "pulumi",    "version": "3.33.2"}
       - {"name": "terraform", "version": "1.1.9",
          "repo": "https://github.com/asdf-community/asdf-hashicorp.git"}
 

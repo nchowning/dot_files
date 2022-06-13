@@ -6,6 +6,9 @@ alias efuse="cd ~/workspace/efuse"
 alias tf="terraform"
 alias tfp="terraform plan"
 
+# Pulumi
+alias p="AWS_PROFILE=non-prod pulumi"
+
 # Kubernetes
 alias kc="kubectl"
 alias kcx="kubectx"
