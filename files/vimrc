@@ -71,3 +71,6 @@ let g:terraform_fold_sections = 1
 
 " C++ options
 autocmd FileType cpp setlocal foldmethod=syntax
+
+" ABBREVIATIONS
+ab pydb from ptpython.repl import embed;embed(globals(), locals())
