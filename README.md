@@ -6,8 +6,11 @@ These are my new dot files
 - Add `github_checkout` type to just pull down repos (not releases)
 - Create symlinks to other `.z*` files from zprezto
 - Better user configuration (changing shell to zsh etc...)
-- Install dracula color theme for gnome-terminal
 - Configure Gnome/DE stuff
+  - Disable auto brightness
+  - Disable dock. I never use it anyway
+  - Workspaces on Primary Display only
   - Desktop background
 - Configure openssh-server
 - Install & update `apt-file` database
+- Install brave browser
