@@ -76,6 +76,7 @@
       - gnupg-agent
       - google-chrome-stable
       - jq
+      - kitty
       - libffi-dev 
       - libssl-dev
       - openssh-server
@@ -93,6 +94,12 @@
         dest:      ".bin/aws"
         mode:      "0750"
       - source:    "gitconfig"
+      - source:    "kitty/kitty.conf"
+        dest:      ".config/kitty/kitty.conf"
+      - source:    "kitty/dracula.conf"
+        dest:      ".config/kitty/dracula.conf"
+      - source:    "kitty/diff.conf"
+        dest:      ".config/kitty/diff.conf"
       - source:    "p10k.zsh"
       # - source:    "Synergy.conf"
       #   dest:      ".config/Synergy/Synergy.conf"
@@ -106,6 +113,7 @@
     - home_directories:
       - ".bin"
       - ".config"
+      - ".config/kitty"
       - ".config/Synergy"
       - ".fonts"
       - ".ssh"
