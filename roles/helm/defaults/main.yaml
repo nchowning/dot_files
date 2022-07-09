@@ -1,0 +1,16 @@
+---
+helm_repositories:
+- name: "autoscaler"
+  repo: "https://kubernetes.github.io/autoscaler"
+- name: "eks"
+  repo: "https://aws.github.io/eks-charts"
+- name: "jetstack"
+  repo: "https://charts.jetstack.io"
+- name: "datadog"
+  repo: "https://helm.datadoghq.com"
+- name: "external-dns"
+  repo: "https://kubernetes-sigs.github.io/external-dns"
+- name: "ingress-nginx"
+  repo: "https://kubernetes.github.io/ingress-nginx"
+- name: "metricks-server"
+  repo: "https://kubernetes-sigs.github.io/metrics-server"

@@ -1,0 +1,28 @@
+---
+- name: "Create config directories"
+  file:
+    name: "{{ ansible_env.HOME }}/{{ item }}"
+    state: directory
+  with_items:
+    - ".config/kitty"
+
+- name: "Add config files"
+  copy:
+    src: "files/{{ item.source }}"
+    dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + item.source) }}"
+    mode: "{{ item.mode | default('0660') }}"
+  with_items: "{{ desktop_files }}"
+
+- name: "Install desktop packages"
+  become: yes
+  apt:
+    pkg: "{{ desktop_packages }}"
+    state: present
+
+- name: "Apply dconf settings"
+  dconf:
+    key: "{{ item.key }}"
+    state: present
+    value: "{{ item.value }}"
+  with_items:
+    "{{ dconf_settings }}"

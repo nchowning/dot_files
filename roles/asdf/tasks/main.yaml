@@ -1,0 +1,22 @@
+---
+- name: "Install git"
+  apt:
+    pkg: git
+    state: present
+
+- name: "Install asdf"
+  git:
+    repo: https://github.com/asdf-vm/asdf.git
+    dest: "{{ ansible_env.HOME }}/.asdf"
+    version: v0.8.1
+
+- name: "Install asdf plugins & packages"
+  shell: |
+      source {{ ansible_env.HOME }}/.asdf/asdf.sh
+      asdf plugin-add {{ item.name }} {{ item.repo | default("") }}
+      [[ version = version{{ item.version }} ]] || asdf install {{ item.name }} {{ item.version }}
+      [[ version = version{{ item.version }} ]] || asdf global {{ item.name }} {{ item.version }}
+  args:
+    executable: /usr/bin/bash
+  with_items:
+    "{{ asdf_plugins }}"

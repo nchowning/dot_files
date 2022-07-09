@@ -1,0 +1,16 @@
+---
+- name: "Get helm path"
+  shell: |
+    source {{ ansible_env.HOME }}/.asdf/asdf.sh
+    asdf where helm
+  args:
+    executable: /usr/bin/bash
+  register: helm_path
+
+- name: "Add helm repositories"
+  kubernetes.core.helm_repository:
+    binary_path: "{{ helm_path.stdout }}/bin/helm"
+    name: "{{ item.name }}"
+    repo_url: "{{ item.repo }}"
+  with_items:
+    "{{ helm_repositories }}"

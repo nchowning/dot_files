@@ -2,150 +2,47 @@
 - hosts: localhost
   vars:
     - ansible_python_interpreter: /usr/bin/python3
-    - asdf_plugins:
-      - {"name": "helm",      "version": "latest"}
-      - {"name": "kubectl",   "version": "latest"}
-      - {"name": "nodejs",    "version": "16.15.0"}
-      - {"name": "python",    "version": "3.10.2"}
-      - {"name": "poetry",    "version": "1.1.13"}
-      - {"name": "pulumi",    "version": "3.33.2"}
-      - {"name": "terraform", "version": "1.1.9",
-         "repo": "https://github.com/asdf-community/asdf-hashicorp.git"}
-
-    - github_releases:
-      - name: "derailed/k9s"
-        version: "latest"
-        asset: "k9s_Linux_x86_64.tar.gz"
-        binaries:
-          - k9s
-      - name: "ahmetb/kubectx"
-        version: "v0.9.4"
-        asset: "kubectx_v0.9.4_linux_x86_64.tar.gz"
-        binaries:
-          - kubectx
-
-    - helm_repositories:
-      - name: "autoscaler"
-        repo: "https://kubernetes.github.io/autoscaler"
-      - name: "eks"
-        repo: "https://aws.github.io/eks-charts"
-      - name: "jetstack"
-        repo: "https://charts.jetstack.io"
-      - name: "datadog"
-        repo: "https://helm.datadoghq.com"
-      - name: "external-dns"
-        repo: "https://kubernetes-sigs.github.io/external-dns"
-      - name: "ingress-nginx"
-        repo: "https://kubernetes.github.io/ingress-nginx"
-      - name: "metricks-server"
-        repo: "https://kubernetes-sigs.github.io/metrics-server"
-
-    - python_packages:
-      - ansible
-      - psutil
-      - virtualenv
-      - virtualenvwrapper
-
-    - ubuntu_dconf:
-      - key: "/org/gnome/mutter/dynamic-workspaces"
-        value: "false"
-      - key: "/org/gnome/desktop/input-sources/xkb-options"
-        value: "['ctrl:nocaps']"
-      - key: "/org/gnome/desktop/interface/clock-show-weekday"
-        value: "true"
-      - key: "/org/gnome/shell/extensions/pop-cosmic/show-applications-button"
-        value: "false"
-      - key: "/org/gnome/shell/extensions/dash-to-dock/dash-max-icon-size"
-        value: "24"
-      - key: "/org/gnome/shell/extensions/dash-to-dock/dock-fixed"
-        value: "false"
-      - key: "/org/gnome/shell/extensions/dash-to-dock/extend-height"
-        value: "false"
-      - key: "/org/gnome/shell/extensions/dash-to-dock/intellihide"
-        value: "false"
-      - key: "/org/gnome/shell/extensions/dash-to-dock/manualhide"
-        value: "false"
-
-    - ubuntu_packages:
+    - dot_files:
+      - source: "authorized_keys"
+        dest:   ".ssh/authorized_keys"
+      - source: "aws"
+        dest:   ".bin/aws"
+        mode:   "0750"
+      - source: "gitconfig"
+      - source: "p10k.zsh"
+      - source: "tmux.conf"
+      - source: "vimrc"
+      - source: "zpreztorc"
+      - source: "zprofile"
+      - source: "zshrc"
+      - source: "zshrc.d/"
+    - home_directories:
+      - ".bin"
+      - ".config"
+      - ".fonts"
+      - ".ssh"
+      - ".vim"
+      - ".vim/autoload"
+    - packages:
       - apt-transport-https
-      - ca-certificates
       - curl
-      - dconf-cli
-      - docker-ce
-      - git
-      - gnupg-agent
-      - google-chrome-stable
       - jq
-      - kitty
       - libffi-dev 
       - libssl-dev
       - openssh-server
       - python3-psutil
-      - slack-desktop
       - software-properties-common
       - tmux
       - vim
       - zsh
 
-    - dot_files:
-      - source:    "authorized_keys"
-        dest:      ".ssh/authorized_keys"
-      - source:    "aws"
-        dest:      ".bin/aws"
-        mode:      "0750"
-      - source:    "gitconfig"
-      - source:    "kitty/kitty.conf"
-        dest:      ".config/kitty/kitty.conf"
-      - source:    "kitty/dracula.conf"
-        dest:      ".config/kitty/dracula.conf"
-      - source:    "kitty/diff.conf"
-        dest:      ".config/kitty/diff.conf"
-      - source:    "p10k.zsh"
-      # - source:    "Synergy.conf"
-      #   dest:      ".config/Synergy/Synergy.conf"
-      - source:    "tmux.conf"
-      - source:    "vimrc"
-      - source:    "zpreztorc"
-      - source:    "zprofile"
-      - source:    "zshrc"
-      - source:    "zshrc.d/"
-
-    - home_directories:
-      - ".bin"
-      - ".config"
-      - ".config/kitty"
-      - ".config/Synergy"
-      - ".fonts"
-      - ".ssh"
-      - ".vim"
-      - ".vim/autoload"
-
   tasks:
-    - name: Clean config
-      when: clean is defined and clean
-      block:
-        - name: Clean dot files
-          file:
-            path: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + item.source) }}"
-            state: absent
-          with_items:
-            - "{{ dot_files }}"
-            - { "dest": ".asdf" }
-            - { "dest": ".bin" }
-            - { "dest": ".vim" }
-
-    - name: Setup home directories
+    - name: Create home directories
       file:
         name: "{{ ansible_env.HOME }}/{{ item }}"
         state: directory
       with_items:
         "{{ home_directories }}"
-
-    - name: Install Prezto
-      git:
-        repo: https://github.com/sorin-ionescu/prezto.git
-        dest: "{{ ansible_env.HOME }}/.zprezto"
-        recursive: yes
 
     - name: Add config files
       copy:
@@ -153,6 +50,12 @@
         dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + item.source) }}"
         mode: "{{ item.mode | default('0660') }}"
       with_items: "{{ dot_files }}"
+
+    - name: Install Prezto
+      git:
+        repo: https://github.com/sorin-ionescu/prezto.git
+        dest: "{{ ansible_env.HOME }}/.zprezto"
+        recursive: yes
 
     - name: "p10k: Download MesloLGS fonts"
       get_url:
@@ -165,120 +68,12 @@
         - "MesloLGS NF Italic"
         - "MesloLGS NF Bold Italic"
 
-    - name: End play if only updating config files
-      meta: end_play
-      when: dots_only is defined and dots_only
-
-    - name: "Ubuntu: Configure ubuntu-like systems"
-      when: ansible_os_family == "Debian"
-      block:
-        - name: "Ubuntu: Add Docker GPG apt Key"
-          become: yes
-          apt_key:
-            url: https://download.docker.com/linux/ubuntu/gpg
-            state: present
-
-        - name: "Ubuntu: Add Docker Repository"
-          become: yes
-          apt_repository:
-            repo: "deb https://download.docker.com/linux/ubuntu bionic stable"
-            state: present
-
-        - name: "Ubuntu: Install packages"
-          become: yes
-          apt:
-            pkg: "{{ ubuntu_packages }}"
-            state: present
-            update_cache: yes
-
-        # - name: "Ubuntu: Install Synergy"
-        #   become: yes
-        #   apt:
-        #     deb: "https://synchronized.love/files/synergy_1.14.3-stable.218fa800_ubuntu21_amd64.deb"
-
-        - name: "Ubuntu: Apply dconf settings"
-          dconf:
-            key: "{{ item.key }}"
-            state: present
-            value: "{{ item.value }}"
-          with_items:
-            "{{ ubuntu_dconf }}"
-
-    - name: "asdf: Install asdf"
-      git:
-        repo: https://github.com/asdf-vm/asdf.git
-        dest: "{{ ansible_env.HOME }}/.asdf"
-        version: v0.8.1
-
-    - name: "asdf: Install plugins & packages"
-      shell: |
-          source {{ ansible_env.HOME }}/.asdf/asdf.sh
-          asdf plugin-add {{ item.name }} {{ item.repo | default("") }}
-          [[ version = version{{ item.version }} ]] || asdf install {{ item.name }} {{ item.version }}
-          [[ version = version{{ item.version }} ]] || asdf global {{ item.name }} {{ item.version }}
-      args:
-        executable: /usr/bin/bash
-      with_items:
-        "{{ asdf_plugins }}"
-
-    - name: "github: Install apps from github releases"
-      block:
-        - name: "github: Create tmp directory"
-          file:
-            path: /tmp/ansible
-            state: directory
-            mode: '0700'
-
-        - name: "github: Download latest releases"
-          unarchive:
-            src: "https://github.com/{{ item.name }}/releases/latest/download/{{ item.asset }}"
-            dest: /tmp/ansible
-            remote_src: yes
-          when: item.version == "latest"
-          with_items:
-            "{{ github_releases }}"
-
-        - name: "github: Download versioned releases"
-          unarchive:
-            src: "https://github.com/{{ item.name }}/releases/download/{{ item.version }}/{{ item.asset }}"
-            dest: /tmp/ansible
-            remote_src: yes
-          when: item.version != "latest"
-          with_items:
-            "{{ github_releases }}"
-
-        - name: "github: Move binaries to {{ ansible_env.HOME }}/.bin"
-          copy:
-            src: "/tmp/ansible/{{ item.binaries.0 }}"
-            dest: "{{ ansible_env.HOME }}/.bin/{{ item.binaries.0 }}"
-            mode: '0750'
-          with_items:
-            "{{ github_releases }}"
-
-        - name: "github: Download gnome-terminal dracula theme"
-          git:
-            repo: https://github.com/dracula/gnome-terminal
-            dest: "{{ ansible_env.HOME }}/workspace/dracula-gnome-terminal"
-
-    - name: "helm: Add helm repositories"
-      kubernetes.core.helm_repository:
-        name: "{{ item.name }}"
-        repo_url: "{{ item.repo }}"
-      with_items:
-        "{{ helm_repositories }}"
-
-    - name: "python: Get python path"
-      shell: |
-          source {{ ansible_env.HOME }}/.asdf/asdf.sh
-          asdf where python
-      args:
-        executable: /usr/bin/bash
-      register: python_path
-
-    - name: "python: Install python packages"
-      pip:
-        name: "{{ python_packages }}"
-        executable: "{{ python_path.stdout }}/bin/pip"
+    - name: "Ubuntu: Install packages"
+      become: yes
+      apt:
+        pkg: "{{ packages }}"
+        state: present
+        update_cache: yes
 
     - name: "vim: Install vim-plug"
       get_url:
@@ -289,3 +84,16 @@
 
     - name: "vim: Install Plugins"
       command: "vim +PlugUpdate +qall"
+
+    - import_role:
+        name: docker
+    - import_role:
+        name: asdf
+    - import_role:
+        name: helm
+    - import_role:
+        name: python
+    - import_role:
+        name: github_apps
+    - import_role:
+        name: desktop

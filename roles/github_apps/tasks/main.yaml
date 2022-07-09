@@ -1,0 +1,32 @@
+---
+- name: "github: Create tmp directory"
+  file:
+    path: /tmp/ansible
+    state: directory
+    mode: '0700'
+
+- name: "github: Download latest releases"
+  unarchive:
+    src: "https://github.com/{{ item.name }}/releases/latest/download/{{ item.asset }}"
+    dest: /tmp/ansible
+    remote_src: yes
+  when: item.version == "latest"
+  with_items:
+    "{{ github_releases }}"
+
+- name: "github: Download versioned releases"
+  unarchive:
+    src: "https://github.com/{{ item.name }}/releases/download/{{ item.version }}/{{ item.asset }}"
+    dest: /tmp/ansible
+    remote_src: yes
+  when: item.version != "latest"
+  with_items:
+    "{{ github_releases }}"
+
+- name: "github: Move binaries to {{ ansible_env.HOME }}/.bin"
+  copy:
+    src: "/tmp/ansible/{{ item.binaries.0 }}"
+    dest: "{{ ansible_env.HOME }}/.bin/{{ item.binaries.0 }}"
+    mode: '0750'
+  with_items:
+    "{{ github_releases }}"

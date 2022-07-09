@@ -1,0 +1,6 @@
+---
+python_packages:
+- ansible
+- psutil
+- virtualenv
+- virtualenvwrapper
