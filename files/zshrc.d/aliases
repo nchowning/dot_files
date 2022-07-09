@@ -1,6 +1,11 @@
 # General
 alias bm="branch_merged"
-alias efuse="cd ~/workspace/efuse"
+alias dots="cd ~/workspace/dot_files"
+
+# Ansible
+alias a="ansible"
+alias ap="ansible-playbook"
+alias dodots="ansible-playbook -c local -K -i localhost, deploy.yaml"
 
 # Terraform
 alias tf="terraform"
@@ -12,3 +17,8 @@ alias p="AWS_PROFILE=non-prod pulumi"
 # Kubernetes
 alias kc="kubectl"
 alias kcx="kubectx"
+
+# Work
+alias efuse="cd ~/workspace/efuse"
+alias tfenv="cd ~/workspace/efuse/terraform-environments"
+alias tfworkspace="cd ~/workspace/efuse/terraform-workspaces"
