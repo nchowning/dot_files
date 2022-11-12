@@ -2,5 +2,6 @@
 python_packages:
 - ansible
 - psutil
+- scrython
 - virtualenv
 - virtualenvwrapper

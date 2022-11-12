@@ -1,6 +1,7 @@
 # General
 alias bm="branch_merged"
 alias dots="cd ~/workspace/dot_files"
+alias scry="$(asdf where python)/bin/scry.py"
 
 # Ansible
 alias a="ansible"

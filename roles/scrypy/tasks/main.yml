@@ -1,0 +1,20 @@
+---
+- name: "scrypy: Create tmp directory"
+  file:
+    path: /tmp/ansible
+    state: directory
+    mode: '0700'
+
+- name: "scrypy: Get scrypy code"
+  git:
+    repo: https://github.com/nchowning/scrypy.git
+    dest: /tmp/ansible/scrypy
+
+- name: "scrypy: Install scrypy"
+  shell: |
+    source {{ ansible_env.HOME }}/.asdf/asdf.sh
+    python setup.py sdist
+    python setup.py install
+  args:
+    chdir: /tmp/ansible/scrypy
+    executable: "{{ (ansible_system == 'Linux') | ternary('/usr/bin/bash', '/bin/bash') }}"
