@@ -23,18 +23,6 @@
       - ".ssh"
       - ".vim"
       - ".vim/autoload"
-    - packages:
-      - apt-transport-https
-      - curl
-      - jq
-      - libffi-dev 
-      - libssl-dev
-      - openssh-server
-      - python3-psutil
-      - software-properties-common
-      - tmux
-      - vim
-      - zsh
 
   tasks:
     - name: Create home directories
@@ -68,13 +56,6 @@
         - "MesloLGS NF Italic"
         - "MesloLGS NF Bold Italic"
 
-    - name: "Ubuntu: Install packages"
-      become: yes
-      apt:
-        pkg: "{{ packages }}"
-        state: present
-        update_cache: yes
-
     - name: "vim: Install vim-plug"
       get_url:
         url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -86,14 +67,18 @@
       command: "vim +PlugUpdate +qall"
 
     - import_role:
-        name: docker
-    - import_role:
         name: asdf
-    - import_role:
-        name: helm
     - import_role:
         name: python
     - import_role:
-        name: github_apps
-    - import_role:
-        name: desktop
+        name: helm
+
+    - name: "Linux Setup"
+      import_role:
+        name: linux
+      when: ansible_system == "Linux"
+
+    - name: "MacOS Setup"
+      import_role:
+        name: macos
+      when: ansible_system == "Darwin"

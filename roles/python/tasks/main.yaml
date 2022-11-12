@@ -1,10 +1,10 @@
 ---
 - name: "Get python path"
   shell: |
-      source {{ ansible_env.HOME }}/.asdf/asdf.sh
-      asdf where python
+    source {{ ansible_env.HOME }}/.asdf/asdf.sh
+    asdf where python
   args:
-    executable: /usr/bin/bash
+    executable: "{{ (ansible_system == 'Linux') | ternary('/usr/bin/bash', '/bin/bash') }}"
   register: python_path
 
 - name: "Install python packages"

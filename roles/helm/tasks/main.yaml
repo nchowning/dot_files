@@ -4,8 +4,16 @@
     source {{ ansible_env.HOME }}/.asdf/asdf.sh
     asdf where helm
   args:
-    executable: /usr/bin/bash
+    executable: "{{ (ansible_system == 'Linux') | ternary('/usr/bin/bash', '/bin/bash') }}"
   register: helm_path
+
+- name: "Get python path"
+  shell: |
+    source {{ ansible_env.HOME }}/.asdf/asdf.sh
+    asdf where python
+  args:
+    executable: "{{ (ansible_system == 'Linux') | ternary('/usr/bin/bash', '/bin/bash') }}"
+  register: python_path
 
 - name: "Add helm repositories"
   kubernetes.core.helm_repository:
@@ -14,3 +22,5 @@
     repo_url: "{{ item.repo }}"
   with_items:
     "{{ helm_repositories }}"
+  vars:
+    ansible_python_interpreter: "{{ python_path.stdout }}/bin/python"

@@ -1,9 +1,4 @@
 ---
-- name: "Install git"
-  apt:
-    pkg: git
-    state: present
-
 - name: "Install asdf"
   git:
     repo: https://github.com/asdf-vm/asdf.git
@@ -17,6 +12,6 @@
       [[ version = version{{ item.version }} ]] || asdf install {{ item.name }} {{ item.version }}
       [[ version = version{{ item.version }} ]] || asdf global {{ item.name }} {{ item.version }}
   args:
-    executable: /usr/bin/bash
+    executable: "{{ (ansible_system == 'Linux') | ternary('/usr/bin/bash', '/bin/bash') }}"
   with_items:
     "{{ asdf_plugins }}"

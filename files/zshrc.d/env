@@ -1,0 +1,2 @@
+# Override AWS pager
+export AWS_PAGER=""

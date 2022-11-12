@@ -1,0 +1,14 @@
+---
+linux_packages:
+  - apt-transport-https
+  - curl
+  - git
+  - jq
+  - libffi-dev 
+  - libssl-dev
+  - openssh-server
+  - python3-psutil
+  - software-properties-common
+  - tmux
+  - vim
+  - zsh

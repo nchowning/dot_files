@@ -1,0 +1,15 @@
+---
+- name: Install Homebrew packages
+  community.general.packaging.os.homebrew:
+    name: "{{ mac_packages }}"
+
+- name: Github Apps
+  import_role:
+    name: github_apps
+  vars:
+    github_releases:
+    - name: "ahmetb/kubectx"
+      version: "v0.9.4"
+      asset: "kubectx_v0.9.4_darwin_x86_64.tar.gz"
+      binaries:
+        - kubectx

@@ -1,0 +1,9 @@
+---
+mac_packages:
+  - awscli
+  - git
+  - gnu-tar
+  - k9s
+  - teleport
+  - tmux
+  - wget
