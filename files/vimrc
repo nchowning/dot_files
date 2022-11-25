@@ -73,3 +73,6 @@ autocmd FileType cpp setlocal foldmethod=syntax
 
 " ABBREVIATIONS
 ab pydb from ptpython.repl import embed;embed(globals(), locals())
+
+" Fix code folding colors
+highlight Folded ctermfg=Black
