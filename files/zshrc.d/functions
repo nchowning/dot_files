@@ -18,3 +18,30 @@ branch_merged () {
         git pull origin master
     fi
 }
+
+bootstrap_aws_env () {
+    # Check for AWS credential variables
+    FAIL=0
+    [[ -z "${AWS_ACCESS_KEY_ID}" ]] && echo "\"AWS_ACCESS_KEY_ID\" is not set" && FAIL=1
+    [[ -z "${AWS_SECRET_ACCESS_KEY}" ]] && echo "\"AWS_SECRET_ACCESS_KEY\" is not set" && FAIL=1
+    [[ -z "${AWS_SESSION_TOKEN}" ]] && echo "\"AWS_SESSION_TOKEN\" is not set" && FAIL=1
+    [[ $FAIL -ne 0 ]] && return $FAIL
+
+    export AWS_PROFILE="default"
+}
+
+list_clusters () {
+    if ! (bootstrap_aws_env); then
+        return 1
+    fi
+
+    aws eks list-clusters
+}
+
+update_kubeconfig () {
+    if ! (bootstrap_aws_env); then
+        return 1
+    fi
+
+    aws eks update-kubeconfig --name $1 --alias $1
+}
