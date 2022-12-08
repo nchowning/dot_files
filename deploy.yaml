@@ -5,6 +5,7 @@
     - dot_files:
       - source: "authorized_keys"
         dest:   ".ssh/authorized_keys"
+        mode:   "0600"
       - source: "aws"
         dest:   ".bin/aws"
         mode:   "0750"
@@ -20,7 +21,6 @@
       - ".bin"
       - ".config"
       - ".fonts"
-      - ".ssh"
       - ".vim"
       - ".vim/autoload"
     - asdf_plugins:
@@ -37,6 +37,12 @@
         state: directory
       with_items:
         "{{ home_directories }}"
+
+    - name: Create ~/.ssh directory
+      file:
+        name: "{{ ansible_env.HOME }}/.ssh"
+        state: directory
+        mode: "0700"
 
     - name: Add config files
       copy:
