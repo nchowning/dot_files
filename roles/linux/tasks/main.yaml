@@ -4,6 +4,10 @@
     name: github_apps
   vars:
     github_releases:
+    # - name: "argoproj/argo-cd"
+    #   version: "v2.5.4"
+    #   asset: "argocd-linux-amd64"
+    #   binaries: no
     - name: "derailed/k9s"
       version: "latest"
       asset: "k9s_Linux_x86_64.tar.gz"

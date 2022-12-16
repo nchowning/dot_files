@@ -84,8 +84,8 @@
         name: python
     - import_role:
         name: helm
-    - import_role:
-        name: scrypy
+    # - import_role:
+    #     name: scrypy
 
     - name: "Linux Setup"
       import_role:
