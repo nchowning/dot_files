@@ -35,4 +35,6 @@ These are my new dot files
     - docker
 - Configure openssh-server
 - Install & update `apt-file` database
-- Install brave browser
+- Install microsoft edge
+- Install snapd
+  - Install authy via snap
