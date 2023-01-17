@@ -18,8 +18,11 @@ source $(asdf where python)/bin/virtualenvwrapper.sh
 export VIRTUALENVWRAPPER_VIRTUALENV=$(asdf where python)/bin/virtualenv
 
 # Use gnome keyring ssh-agent
-export SSH_AGENT_LAUNGHER=gnome-keyring
-export SSH_AUTH_SOCK=/run/user/${UID}/keyring/ssh
+# export SSH_AGENT_LAUNGHER=gnome-keyring
+# export SSH_AUTH_SOCK=/run/user/${UID}/keyring/ssh
+
+# Mac wants this after upgrade to ventura
+export LC_ALL="en_us.UTF-8"
 
 # Pull in any config files in ~/.zshrc.d
 [[ -d ~/.zshrc.d ]] && for file in ~/.zshrc.d/*;do source ${file};done
