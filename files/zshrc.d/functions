@@ -43,5 +43,21 @@ update_kubeconfig () {
         return 1
     fi
 
-    aws eks update-kubeconfig --name $1 --alias $1
+    if (( ${#} > 1 )); then
+        ALIAS=$2
+    else
+        ALIAS=$1
+    fi
+
+    aws eks update-kubeconfig --name $1 --alias ${ALIAS}
+}
+
+dotheargo () {
+    ARGO_HOSTNAME=$(kubectl get service argocd-server -n argocd -o jsonpath="{.status.loadBalancer.ingress[0].hostname}")
+    ARGO_PASSWORD=$(kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d)
+    echo "admin: ${ARGO_PASSWORD}"
+    argocd login $ARGO_HOSTNAME --username admin --password "${ARGO_PASSWORD}"
+    argocd account update-password --account admin --current-password "${ARGO_PASSWORD}"
+    echo
+    echo "Argo Hostname: ${ARGO_HOSTNAME}"
 }
