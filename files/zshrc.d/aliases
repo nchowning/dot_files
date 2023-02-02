@@ -12,14 +12,10 @@ alias dodots="ansible-playbook -c local -K -i localhost, deploy.yaml"
 alias tf="terraform"
 alias tfp="terraform plan"
 
-# Pulumi
-alias p="AWS_PROFILE=non-prod pulumi"
-
 # Kubernetes
 alias kc="kubectl"
 alias kcx="kubectx"
 
 # Work
-alias efuse="cd ~/workspace/efuse"
-alias tfenv="cd ~/workspace/efuse/terraform-environments"
-alias tfworkspace="cd ~/workspace/efuse/terraform-workspaces"
+alias loop="cd ~/workspace/loop"
+alias apps="cd ~/workspace/loop/returns-argocd-apps"
