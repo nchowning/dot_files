@@ -8,7 +8,7 @@ asdf_plugins:
 - {"name": "python",    "version": "3.11.0"}
 - {"name": "terraform", "version": "1.3.4",
    "repo": "https://github.com/asdf-community/asdf-hashicorp.git"}
-no_asdf: True
-no_python: True
-no_helm: True
-no_github_apps: True
+optional_roles:
+  - asdf
+  - python
+  - helm

@@ -1,5 +1,9 @@
 ---
 - hosts: localhost
+  vars:
+    - required_roles:
+      - dots
+      - vim
   vars_files:
     - vars/defaults.yaml
   tasks:
@@ -13,80 +17,11 @@
         file: "vars/{{ ansible_hostname | lower }}.yaml"
       when: host_var_file.stat.exists
 
-    - name: Create home directories
-      file:
-        name: "{{ ansible_env.HOME }}/{{ item.path | default(item) }}"
-        state: directory
-        mode: "{{ item.mode | default('0755') }}"
+    - include_role:
+        name: "{{ role }}"
+      loop_control:
+        loop_var: role
       with_items:
-        "{{ home_directories }}"
-
-    - name: Add config files
-      copy:
-        src: "files/{{ item.source | default(item) }}"
-        dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + (item.source | default(item))) }}"
-        mode: "{{ item.mode | default('0660') }}"
-      with_items: "{{ dot_files }}"
-
-    - name: Install Prezto
-      git:
-        repo: https://github.com/sorin-ionescu/prezto.git
-        dest: "{{ ansible_env.HOME }}/.zprezto"
-        recursive: yes
-
-    - name: "p10k: Download MesloLGS fonts"
-      get_url:
-        url: "https://github.com/romkatv/powerlevel10k-media/raw/master/{{ item|urlencode() }}.ttf"
-        dest: "{{ ansible_env.HOME }}/.fonts/{{ item }}.ttf"
-        mode: "0640"
-      with_items:
-        - "MesloLGS NF Regular"
-        - "MesloLGS NF Bold"
-        - "MesloLGS NF Italic"
-        - "MesloLGS NF Bold Italic"
-
-    - name: "vim: Install vim-plug"
-      get_url:
-        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        dest: "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
-        mode: 0644
-        force: yes
-
-    - name: "vim: Install Plugins"
-      command: "vim +PlugUpdate +qall"
-
-    - import_role:
-        name: asdf
-      when: no_asdf is undefined or no_asdf == False
-
-    - import_role:
-        name: python
-      when: no_python is undefined or no_python == False
-
-    - import_role:
-        name: helm
-      when: no_helm is undefined or no_helm == False
-
-    - import_role:
-        name: github_apps
-      when: no_github_apps is undefined or no_github_apps == False
-
-    - name: "Linux Setup"
-      when: ansible_system == "Linux"
-      block:
-        - name: "Linux: Install Packages"
-          become: yes
-          apt:
-            pkg: "{{ linux_packages }}"
-            state: present
-            update_cache: yes
-
-        - name: "Linux: Setup Desktop"
-          import_role:
-            name: desktop
-          when: destop is defined and desktop | bool
-
-    - name: "MacOS Setup"
-      import_role:
-        name: macos
-      when: ansible_system == "Darwin"
+        - "{{ required_roles }}"
+        - "{{ optional_roles | default([]) }}"
+        - "{{ ['macos'] if ansible_system == 'Darwin' else ['linux'] }}"

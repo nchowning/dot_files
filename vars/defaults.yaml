@@ -36,3 +36,8 @@ linux_packages:
   - tmux
   - vim
   - zsh
+optional_roles:
+  - asdf
+  - python
+  - helm
+  - github_apps

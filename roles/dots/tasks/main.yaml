@@ -1,0 +1,32 @@
+---
+- name: Create home directories
+  file:
+    name: "{{ ansible_env.HOME }}/{{ item.path | default(item) }}"
+    state: directory
+    mode: "{{ item.mode | default('0755') }}"
+  with_items:
+    "{{ home_directories }}"
+
+- name: Add config files
+  copy:
+    src: "files/{{ item.source | default(item) }}"
+    dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + (item.source | default(item))) }}"
+    mode: "{{ item.mode | default('0660') }}"
+  with_items: "{{ dot_files }}"
+
+- name: Install Prezto
+  git:
+    repo: https://github.com/sorin-ionescu/prezto.git
+    dest: "{{ ansible_env.HOME }}/.zprezto"
+    recursive: yes
+
+- name: "p10k: Download MesloLGS fonts"
+  get_url:
+    url: "https://github.com/romkatv/powerlevel10k-media/raw/master/{{ item|urlencode() }}.ttf"
+    dest: "{{ ansible_env.HOME }}/.fonts/{{ item }}.ttf"
+    mode: "0640"
+  with_items:
+    - "MesloLGS NF Regular"
+    - "MesloLGS NF Bold"
+    - "MesloLGS NF Italic"
+    - "MesloLGS NF Bold Italic"

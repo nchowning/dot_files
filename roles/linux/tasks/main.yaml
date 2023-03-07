@@ -1,32 +1,12 @@
 ---
-- name: "Linux: Github Apps"
-  import_role:
-    name: github_apps
-  vars:
-    github_releases:
-    # - name: "argoproj/argo-cd"
-    #   version: "v2.5.4"
-    #   asset: "argocd-linux-amd64"
-    #   binaries: no
-    - name: "derailed/k9s"
-      version: "latest"
-      asset: "k9s_Linux_x86_64.tar.gz"
-      binaries:
-        - k9s
-    - name: "ahmetb/kubectx"
-      version: "v0.9.4"
-      asset: "kubectx_v0.9.4_linux_x86_64.tar.gz"
-      binaries:
-        - kubectx
-
-- name: "Linux: Install packages"
+- name: "Linux: Install Packages"
   become: yes
   apt:
     pkg: "{{ linux_packages }}"
     state: present
     update_cache: yes
 
-- name: "Linux: Setup desktop"
+- name: "Linux: Setup Desktop"
   import_role:
     name: desktop
-  when: destop is defined and desktop | bool
+  when: linux_destop is defined and linux_desktop | bool

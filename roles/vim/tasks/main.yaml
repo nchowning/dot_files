@@ -1,0 +1,10 @@
+---
+- name: "vim: Install vim-plug"
+  get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: "{{ ansible_env.HOME }}/.vim/autoload/plug.vim"
+    mode: 0644
+    force: yes
+
+- name: "vim: Install Plugins"
+  command: "vim +PlugUpdate +qall"
