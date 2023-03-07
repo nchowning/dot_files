@@ -23,5 +23,5 @@
         loop_var: role
       with_items:
         - "{{ required_roles }}"
-        - "{{ optional_roles | default([]) }}"
         - "{{ ['macos'] if ansible_system == 'Darwin' else ['linux'] }}"
+        - "{{ optional_roles | default([]) }}"

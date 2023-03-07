@@ -2,7 +2,7 @@
 - name: "Linux: Install Packages"
   become: yes
   apt:
-    pkg: "{{ linux_packages }}"
+    pkg: "{{ linux_packages_default + (linux_packages_extra | default([])) }}"
     state: present
     update_cache: yes
 
