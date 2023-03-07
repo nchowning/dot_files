@@ -1,53 +1,30 @@
 ---
 - hosts: localhost
-  vars:
-    - ansible_python_interpreter: /usr/bin/python3
-    - dot_files:
-      - source: "authorized_keys"
-        dest:   ".ssh/authorized_keys"
-        mode:   "0600"
-      - source: "aws"
-        dest:   ".bin/aws"
-        mode:   "0750"
-      - source: "gitconfig"
-      - source: "p10k.zsh"
-      - source: "tmux.conf"
-      - source: "vimrc"
-      - source: "zpreztorc"
-      - source: "zprofile"
-      - source: "zshrc"
-      - source: "zshrc.d/"
-    - home_directories:
-      - ".bin"
-      - ".config"
-      - ".fonts"
-      - ".vim"
-      - ".vim/autoload"
-    - asdf_plugins:
-      - {"name": "helm",      "version": "latest"}
-      - {"name": "kubectl",   "version": "latest"}
-      - {"name": "python",    "version": "3.11.0"}
-      - {"name": "terraform", "version": "1.3.4",
-         "repo": "https://github.com/asdf-community/asdf-hashicorp.git"}
-
+  vars_files:
+    - vars/defaults.yaml
   tasks:
+    - name: Check for host variable file
+      stat:
+        path: "vars/{{ ansible_hostname | lower }}.yaml"
+      register: host_var_file
+
+    - name: Include host variable file
+      include_vars:
+        file: "vars/{{ ansible_hostname | lower }}.yaml"
+      when: host_var_file.stat.exists
+
     - name: Create home directories
       file:
-        name: "{{ ansible_env.HOME }}/{{ item }}"
+        name: "{{ ansible_env.HOME }}/{{ item.path | default(item) }}"
         state: directory
+        mode: "{{ item.mode | default('0755') }}"
       with_items:
         "{{ home_directories }}"
 
-    - name: Create ~/.ssh directory
-      file:
-        name: "{{ ansible_env.HOME }}/.ssh"
-        state: directory
-        mode: "0700"
-
     - name: Add config files
       copy:
-        src: "files/{{ item.source }}"
-        dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + item.source) }}"
+        src: "files/{{ item.source | default(item) }}"
+        dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + (item.source | default(item))) }}"
         mode: "{{ item.mode | default('0660') }}"
       with_items: "{{ dot_files }}"
 
@@ -80,17 +57,34 @@
 
     - import_role:
         name: asdf
+      when: no_asdf is undefined or no_asdf == False
+
     - import_role:
         name: python
+      when: no_python is undefined or no_python == False
+
     - import_role:
         name: helm
-    # - import_role:
-    #     name: scrypy
+      when: no_helm is undefined or no_helm == False
+
+    - import_role:
+        name: github_apps
+      when: no_github_apps is undefined or no_github_apps == False
 
     - name: "Linux Setup"
-      import_role:
-        name: linux
       when: ansible_system == "Linux"
+      block:
+        - name: "Linux: Install Packages"
+          become: yes
+          apt:
+            pkg: "{{ linux_packages }}"
+            state: present
+            update_cache: yes
+
+        - name: "Linux: Setup Desktop"
+          import_role:
+            name: desktop
+          when: destop is defined and desktop | bool
 
     - name: "MacOS Setup"
       import_role:
