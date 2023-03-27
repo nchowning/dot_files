@@ -1,0 +1,22 @@
+---
+asdf_plugins_default:
+  - {"name": "helm",
+     "version": "latest"}
+
+  - {"name": "hugo",
+     "version": "latest",
+     "repo": "https://github.com/nklmilojevic/asdf-hugo.git"}
+
+  - {"name": "kubectl",
+     "version": "latest"}
+
+  - {"name": "python",
+     "version": "3.11.2"}
+
+  - {"name": "terraform",
+     "version": "1.3.4",
+     "repo": "https://github.com/asdf-community/asdf-hashicorp.git"}
+
+  - {"name": "teleport-community",
+     "version": "12.1.1",
+     "repo": "https://github.com/MaloPolese/asdf-teleport-community.git"}

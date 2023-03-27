@@ -14,4 +14,4 @@
   args:
     executable: "{{ (ansible_system == 'Linux') | ternary('/usr/bin/bash', '/bin/bash') }}"
   with_items:
-    "{{ asdf_plugins }}"
+    "{{ asdf_plugins_default + (asdf_plugins_extra | default([])) }}"
