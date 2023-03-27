@@ -8,4 +8,4 @@ RUN curl https://apt.releases.teleport.dev/gpg -o /usr/share/keyrings/teleport-a
 COPY teleport.list /etc/apt/sources.list.d/teleport.list
 RUN sed -i "s/VERSION/${version}/" /etc/apt/sources.list.d/teleport.list
 
-RUN apt-get update && apt-get install teleport --yes
+RUN apt-get update && apt-get install teleport-ent --yes

@@ -16,7 +16,8 @@ alias kc="kubectl"
 alias kcx="kubectx"
 
 # Teleport
-alias tsh="docker-compose -f ~/.docker_compose/docker-compose.yaml run --rm teleport tsh"
+alias tsh="docker-compose -f ~/.docker_compose/docker-compose.yaml run --rm --service-ports teleport tsh"
+alias tctl="docker-compose -f ~/.docker_compose/docker-compose.yaml run --rm --service-ports teleport tctl"
 
 # Terraform
 alias tf="terraform"

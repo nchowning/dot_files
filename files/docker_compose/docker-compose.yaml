@@ -5,3 +5,7 @@ services:
       context: ./teleport
       args:
         version: 12
+    ports:
+      - 59080:59080
+    volumes:
+      - ~/.tshe:/root/.tsh
