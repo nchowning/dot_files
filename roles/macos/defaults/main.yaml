@@ -1,9 +1,17 @@
 ---
-mac_packages:
+mac_packages_default:
   - awscli
   - git
+  - gnu-sed
   - gnu-tar
   - k9s
   - teleport
   - tmux
   - wget
+  # Python build dependencies
+  - openssl
+  - readline
+  - sqlite3
+  - tcl-tk
+  - xz
+  - zlib

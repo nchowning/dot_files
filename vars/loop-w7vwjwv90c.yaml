@@ -8,5 +8,16 @@ asdf_plugins:
   - {"name": "terraform",  "version": "1.3.4",   "repo": "https://github.com/asdf-community/asdf-hashicorp.git"}
 dot_files_extra:
   - "zshrc.d/env.macos"
+github_releases:
+  - name: "derailed/k9s"
+    version: "latest"
+    asset: "k9s_Darwin_arm64.tar.gz"
+    binaries:
+      - k9s
+  - name: "ahmetb/kubectx"
+    version: "v0.9.4"
+    asset: "kubectx_v0.9.4_darwin_arm64.tar.gz"
+    binaries:
+      - kubectx
 optional_roles:
   - asdf
