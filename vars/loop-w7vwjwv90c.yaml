@@ -21,3 +21,4 @@ github_releases:
       - kubectx
 optional_roles:
   - asdf
+  - python
