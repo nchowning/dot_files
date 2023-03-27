@@ -1,21 +1,23 @@
 # General
 alias bm="branch_merged"
 alias dots="cd ~/workspace/dot_files"
-alias scry="$(asdf where python)/bin/scry.py"
+
+# Work
+alias loop="cd ~/workspace/loop"
+alias apps="cd ~/workspace/loop/returns-argocd-apps"
 
 # Ansible
 alias a="ansible"
 alias ap="ansible-playbook"
 alias dodots="ansible-playbook -c local -K -i localhost, deploy.yaml"
 
-# Terraform
-alias tf="terraform"
-alias tfp="terraform plan"
-
 # Kubernetes
 alias kc="kubectl"
 alias kcx="kubectx"
 
-# Work
-alias loop="cd ~/workspace/loop"
-alias apps="cd ~/workspace/loop/returns-argocd-apps"
+# Teleport
+alias tsh="docker-compose -f ~/.docker_compose/docker-compose.yaml run --rm teleport tsh"
+
+# Terraform
+alias tf="terraform"
+alias tfp="terraform plan"

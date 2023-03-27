@@ -6,6 +6,7 @@ dot_files_default:
   - source: "aws"
     dest:   ".bin/aws"
     mode:   "0750"
+  - "docker_compose/"
   - "gitconfig"
   - "p10k.zsh"
   - "tmux.conf"

@@ -1,0 +1,7 @@
+version: '3'
+services:
+  teleport:
+    build:
+      context: ./teleport
+      args:
+        version: 12
