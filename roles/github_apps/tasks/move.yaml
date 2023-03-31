@@ -1,0 +1,10 @@
+---
+- name: "Move binaries to {{ ansible_env.HOME }}/.bin"
+  copy:
+    src: "/tmp/ansible/{{ binary.source | default(binary) }}"
+    dest: "{{ ansible_env.HOME }}/.bin/{{ binary.dest | default(binary) }}"
+    mode: "0750"
+  loop_control:
+    loop_var: binary
+  with_items:
+    "{{ release.binaries }}"

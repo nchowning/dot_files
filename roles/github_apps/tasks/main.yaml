@@ -23,10 +23,10 @@
   with_items:
     "{{ github_releases }}"
 
-- name: "github: Move binaries to {{ ansible_env.HOME }}/.bin"
-  copy:
-    src: "/tmp/ansible/{{ item.binaries.0 }}"
-    dest: "{{ ansible_env.HOME }}/.bin/{{ item.binaries.0 }}"
-    mode: '0750'
+- include_tasks: move.yaml
+  vars:
+    release: "{{ release }}"
+  loop_control:
+    loop_var: release
   with_items:
     "{{ github_releases }}"

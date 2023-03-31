@@ -4,6 +4,7 @@
   apt:
     pkg:
       - ca-certificates
+      - curl
       - gnupg-agent
     state: present
 

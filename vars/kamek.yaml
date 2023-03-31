@@ -1,6 +1,16 @@
 ---
 ansible_python_interpreter: /usr/bin/python3
 github_releases:
+  - name: "weaveworks/eksctl"
+    version: "v0.136.0"
+    asset: "eksctl_Linux_amd64.tar.gz"
+    binaries:
+      - eksctl
+  - name: "aws/eks-anywhere"
+    version: "v0.15.0"
+    asset: "eksctl-anywhere-v0.15.0-linux-amd64.tar.gz"
+    binaries:
+      - eksctl-anywhere
   - name: "derailed/k9s"
     version: "latest"
     asset: "k9s_Linux_amd64.tar.gz"
@@ -11,8 +21,15 @@ github_releases:
     asset: "kubectx_v0.9.4_linux_x86_64.tar.gz"
     binaries:
       - kubectx
+  - name: "kubernetes/minikube"
+    version: "latest"
+    asset: "minikube-linux-amd64.tar.gz"
+    binaries:
+      - source: "out/minikube-linux-amd64"
+        dest: "minikube"
 optional_roles:
   - asdf
+  - docker
   - python
   - helm
   - github_apps
