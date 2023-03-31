@@ -1,0 +1,18 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+github_releases:
+  - name: "derailed/k9s"
+    version: "latest"
+    asset: "k9s_Linux_amd64.tar.gz"
+    binaries:
+      - k9s
+  - name: "ahmetb/kubectx"
+    version: "v0.9.4"
+    asset: "kubectx_v0.9.4_linux_x86_64.tar.gz"
+    binaries:
+      - kubectx
+optional_roles:
+  - asdf
+  - python
+  - helm
+  - github_apps
