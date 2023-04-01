@@ -27,5 +27,10 @@ export VIRTUALENVWRAPPER_VIRTUALENV=$(asdf where python)/bin/virtualenv
 # Source machine specific configs
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
 
+# Load ls colors
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+fi
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

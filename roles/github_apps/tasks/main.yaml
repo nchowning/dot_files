@@ -25,8 +25,8 @@
 
 - include_tasks: move.yaml
   vars:
-    release: "{{ release }}"
+    app: "{{ github_app }}"
   loop_control:
-    loop_var: release
+    loop_var: github_app
   with_items:
     "{{ github_releases }}"

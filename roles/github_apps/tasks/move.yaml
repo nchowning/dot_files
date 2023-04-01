@@ -7,4 +7,4 @@
   loop_control:
     loop_var: binary
   with_items:
-    "{{ release.binaries }}"
+    "{{ app.binaries }}"
