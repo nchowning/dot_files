@@ -15,11 +15,6 @@ alias dodots="ansible-playbook -c local -K -i localhost, deploy.yaml"
 alias kc="kubectl"
 alias kcx="kubectx"
 
-# Teleport
-alias teleport="docker-compose -f ~/.docker_compose/docker-compose.yaml run --rm --service-ports teleport teleport"
-alias tsh="docker-compose -f ~/.docker_compose/docker-compose.yaml run --rm --service-ports teleport tsh"
-alias tctl="docker-compose -f ~/.docker_compose/docker-compose.yaml run --rm --service-ports teleport tctl"
-
 # Terraform
 alias tf="terraform"
 alias tfp="terraform plan"
