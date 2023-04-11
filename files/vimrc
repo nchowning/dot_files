@@ -7,6 +7,7 @@ Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 Plug 'hashivim/vim-terraform'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'habamax/vim-godot'
 
 call plug#end()
 
