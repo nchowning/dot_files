@@ -9,4 +9,4 @@
 - name: "Linux: Setup Desktop"
   import_role:
     name: desktop
-  when: linux_destop is defined and linux_desktop | bool
+  when: linux_desktop is defined and linux_desktop | bool
