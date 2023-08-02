@@ -16,9 +16,9 @@
 - name: "Add desktop apt signing keys"
   become: yes
   get_url:
-    url: "{{ item }}"
-    dest: /etc/apt/trusted.gpg.d/
-    mode: 644
+    url: "{{ item.url | default(item) }}"
+    dest: "/etc/apt/trusted.gpg.d/{{ item.dest | default('') }}"
+    mode: "644"
   loop:
     "{{ desktop_apt_keys }}"
 

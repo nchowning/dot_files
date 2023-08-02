@@ -10,18 +10,27 @@ desktop_files:
 desktop_apt_keys:
 - "https://packages.microsoft.com/keys/microsoft.asc"
 - "https://downloads.1password.com/linux/keys/1password.asc"
+- url: "https://download.opensuse.org/repositories/home:selmf/xUbuntu_22.04/Release.key"
+  dest: yacreader.asc
+- url: "https://syncthing.net/release-key.gpg"
+  dest: syncthing.gpg
 
 desktop_apt_repos:
 - "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main"
 - "deb [arch=amd64 signed-by=/etc/apt/trusted.gpg.d/1password.asc] https://downloads.1password.com/linux/debian/amd64 stable main"
+- "deb http://download.opensuse.org/repositories/home:/selmf/xUbuntu_22.04/ /"
+- "deb [signed-by=/etc/apt/trusted.gpg.d/syncthing.gpg] https://apt.syncthing.net/ syncthing stable"
 
 desktop_packages:
 - 1password
 - google-chrome-stable
 - kitty
 - microsoft-edge-stable
+- nautilus-dropbox
 - slack-desktop
+- syncthing
 - telegram-desktop
+- yacreader
 
 dconf_settings:
 # Set desktop background
