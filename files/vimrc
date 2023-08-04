@@ -8,6 +8,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'octol/vim-cpp-enhanced-highlight'
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'habamax/vim-godot'
+Plug 'Yggdroot/indentLine'
 
 call plug#end()
 
