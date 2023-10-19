@@ -14,7 +14,7 @@ dot_files_default:
   - "vim/after/ftplugin/gdscript.vim"
   - "vimrc"
   - "zpreztorc"
-  - "zprofile"
+  - source: "zprofile.j2"
   - "zshrc"
   - "zshrc.d/aliases"
   - "zshrc.d/env"

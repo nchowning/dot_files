@@ -8,12 +8,22 @@
     - "{{ home_directories_default }}"
     - "{{ home_directories_extra | default([]) }}"
 
-- name: Add config files
+- name: Copy config files
   copy:
     src: "files/{{ item.source | default(item) }}"
     dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + (item.source | default(item))) }}"
     mode: "{{ item.mode | default('0660') }}"
   when: item.source is defined and not item.source.endswith(".j2")
+  with_items:
+    - "{{ dot_files_default }}"
+    - "{{ dot_files_extra | default([]) }}"
+
+- name: Populate template config files
+  template:
+    src: "files/{{ item.source }}"
+    dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + ((item.source | replace('.j2', '')) | default(item))) }}"
+    mode: "{{ item.mode | default('0660') }}"
+  when: item.source is defined and item.source.endswith(".j2")
   with_items:
     - "{{ dot_files_default }}"
     - "{{ dot_files_extra | default([]) }}"
