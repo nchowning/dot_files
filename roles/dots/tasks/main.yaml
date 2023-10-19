@@ -13,6 +13,7 @@
     src: "files/{{ item.source | default(item) }}"
     dest: "{{ ansible_env.HOME }}/{{ item.dest | default('.' + (item.source | default(item))) }}"
     mode: "{{ item.mode | default('0660') }}"
+  when: item.source is defined and not item.source.endswith(".j2")
   with_items:
     - "{{ dot_files_default }}"
     - "{{ dot_files_extra | default([]) }}"
