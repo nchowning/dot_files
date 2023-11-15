@@ -23,16 +23,16 @@ desktop_apt_repos:
 - "deb [signed-by=/etc/apt/trusted.gpg.d/syncthing.gpg] https://apt.syncthing.net/ syncthing stable"
 
 desktop_packages:
-- 1password
-- code
+# - 1password
+# - code
 - google-chrome-stable
 - kitty
-- microsoft-edge-stable
+# - microsoft-edge-stable
 - nautilus-dropbox
 - slack-desktop
-- syncthing
+# - syncthing
 - telegram-desktop
-- yacreader
+# - yacreader
 
 dconf_settings:
 # Set desktop background

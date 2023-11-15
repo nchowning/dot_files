@@ -7,8 +7,8 @@ github_releases:
     binaries:
       - k9s
   - name: "ahmetb/kubectx"
-    version: "v0.9.4"
-    asset: "kubectx_v0.9.4_linux_x86_64.tar.gz"
+    version: "v0.9.5"
+    asset: "kubectx_v0.9.5_linux_x86_64.tar.gz"
     binaries:
       - kubectx
   - name: "kubernetes/minikube"

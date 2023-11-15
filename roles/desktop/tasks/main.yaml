@@ -13,23 +13,23 @@
     mode: "{{ item.mode | default('0660') }}"
   with_items: "{{ desktop_files }}"
 
-- name: "Add desktop apt signing keys"
-  become: yes
-  get_url:
-    url: "{{ item.url | default(item) }}"
-    dest: "/etc/apt/trusted.gpg.d/{{ item.dest | default('') }}"
-    mode: "644"
-  loop:
-    "{{ desktop_apt_keys }}"
-
-- name: "Add desktop apt repositories"
-  become: yes
-  apt_repository:
-    repo: "{{ item }}"
-    state: present
-    update_cache: yes
-  loop:
-    "{{ desktop_apt_repos }}"
+# - name: "Add desktop apt signing keys"
+#   become: yes
+#   get_url:
+#     url: "{{ item.url | default(item) }}"
+#     dest: "/etc/apt/trusted.gpg.d/{{ item.dest | default('') }}"
+#     mode: "644"
+#   loop:
+#     "{{ desktop_apt_keys }}"
+# 
+# - name: "Add desktop apt repositories"
+#   become: yes
+#   apt_repository:
+#     repo: "{{ item }}"
+#     state: present
+#     update_cache: yes
+#   loop:
+#     "{{ desktop_apt_repos }}"
 
 - name: "Install desktop packages"
   become: yes
