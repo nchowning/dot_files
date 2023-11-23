@@ -2,7 +2,9 @@
 - name: Install necessary package(s)
   become: true
   apt:
-    pkg: git
+    pkg:
+      - git
+      - zsh
     state: present
     update_cache: yes
 
@@ -51,3 +53,8 @@
     - "MesloLGS NF Bold"
     - "MesloLGS NF Italic"
     - "MesloLGS NF Bold Italic"
+
+- name: "Configure 'nathan' user"
+  ansible.builtin.user:
+    name: nathan
+    shell: /bin/zsh

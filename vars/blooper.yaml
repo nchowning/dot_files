@@ -1,0 +1,8 @@
+---
+ansible_python_interpreter: /usr/bin/python3
+zsh_term: 'screen-256color'
+github_releases: []
+optional_roles:
+  - asdf
+  - python
+  - docker

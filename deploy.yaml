@@ -8,11 +8,13 @@
     - vars/defaults.yaml
   tasks:
     - name: Check for host variable file
+      delegate_to: localhost
       stat:
         path: "vars/{{ ansible_hostname | lower }}.yaml"
       register: host_var_file
 
     - name: Include host variable file
+      delegate_to: localhost
       include_vars:
         file: "vars/{{ ansible_hostname | lower }}.yaml"
       when: host_var_file.stat.exists
