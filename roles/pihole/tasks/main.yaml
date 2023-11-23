@@ -1,0 +1,49 @@
+---
+- name: "Create necessary directories"
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    recurse: true
+  loop:
+    - "{{ container_data }}/pihole/etc-pihole"
+    - "{{ container_data }}/pihole/etc-dnsmasq.d"
+
+- name: "Create 'custom.list' for local DNS A records"
+  become: true
+  template:
+    src: "files/custom.list.j2"
+    dest: "{{ container_data }}/pihole/etc-pihole/custom.list"
+    mode: 0644
+
+- name: "Create dnsmasq conf for local DNS CNAMEs"
+  become: true
+  template:
+    src: "files/05-pihole-custom-cname.conf.j2"
+    dest: "{{ container_data }}/pihole/etc-dnsmasq.d/05-pihole-custom-cname.conf"
+    mode: 0644
+
+- name: "pihole container"
+  community.docker.docker_container:
+    image: "pihole/pihole:{{ pihole_version }}"
+    name: "pihole"
+    env:
+      TZ: "{{ pihole_tz | default('America/Eastern') }}"
+      VIRTUAL_HOST: "{{ pihole_host | default('pihole.' + (domain | default('local'))) }}"
+      WEBPASSWORD: "{{ pihole_web_password | default('Very$ecureP@ssw0rd') }}"
+    labels:
+      traefik.http.routers.pihole.rule: "Host(`{{ pihole_host | default('pihole.' + (domain | default('local'))) }}`)"
+      traefik.http.routers.pihole.entrypoints: "web"
+      traefik.http.services.pihole.loadbalancer.server.port: "80"
+    ports:
+      - 53:53/tcp
+      - 53:53/udp
+    pull: true
+    recreate: true
+    restart: true
+    restart_policy: unless-stopped
+    state: started
+    volumes:
+      - "{{ container_data }}/pihole/etc-pihole:/etc/pihole"
+      - "{{ container_data }}/pihole/etc-dnsmasq.d:/etc/dnsmasq.d"

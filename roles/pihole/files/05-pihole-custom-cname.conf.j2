@@ -1,0 +1,3 @@
+{% for host, target in local_dns.CNAME.items() -%}
+cname={{ host }},{{ target }}
+{%- endfor %}

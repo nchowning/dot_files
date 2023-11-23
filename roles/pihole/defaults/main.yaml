@@ -1,0 +1,3 @@
+---
+pihole_version: "2023.11.0"
+container_data: "/container_data"
