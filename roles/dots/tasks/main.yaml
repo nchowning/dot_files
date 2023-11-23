@@ -1,4 +1,11 @@
 ---
+- name: Install necessary package(s)
+  become: true
+  apt:
+    pkg: git
+    state: present
+    update_cache: yes
+
 - name: Create home directories
   file:
     name: "{{ ansible_env.HOME }}/{{ item.path | default(item) }}"
