@@ -1,3 +1,6 @@
-{% for host, target in local_dns.CNAME.items() -%}
+{% for host, target in pihole.local_dns.CNAME.items() | default({}) %}
 cname={{ host }},{{ target }}
-{%- endfor %}
+{% endfor %}
+{% for dnsmasq_line in pihole.dnsmasq_custom | default([]) %}
+{{ dnsmasq_line }}
+{% endfor %}

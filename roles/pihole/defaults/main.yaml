@@ -1,3 +1,7 @@
 ---
-pihole_version: "2023.11.0"
 container_data: "/container_data"
+pihole_dns_0: "8.8.8.8"
+pihole_dns_1: "8.8.4.4"
+pihole_tz: "America/Eastern"
+pihole_version: "2023.11.0"
+pihole_web_password: "Very$ecureP@ssw0rd"
