@@ -54,7 +54,8 @@
     - "MesloLGS NF Italic"
     - "MesloLGS NF Bold Italic"
 
-- name: "Configure 'nathan' user"
+- name: "Set user's default shell"
+  become: true
   ansible.builtin.user:
     name: nathan
     shell: /bin/zsh

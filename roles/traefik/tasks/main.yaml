@@ -1,0 +1,20 @@
+---
+- name: "Traefik container"
+  become: true
+  community.docker.docker_container:
+    image: "traefik:v{{ traefik_version }}"
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+    name: "traefik"
+    ports:
+      - 80:80
+      - 8080:8080
+    pull: true
+    recreate: true
+    restart: true
+    restart_policy: unless-stopped
+    state: started
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

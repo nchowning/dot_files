@@ -1,0 +1,3 @@
+{% for host, ip in pihole.local_dns.A.items() | default({}) %}
+{{ ip }} {{ host }}
+{% endfor %}
