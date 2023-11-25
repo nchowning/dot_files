@@ -1,0 +1,40 @@
+---
+- name: "Create necessary directories"
+  become: true
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    recurse: true
+  loop:
+    - "{{ container_data }}/openvpn/config"
+
+- name: "Copy files to build openvpn image"
+  copy:
+    src: "files/openvpn"
+    dest: "/tmp"
+
+- name: "Build openvpn container image"
+  community.docker.docker_image:
+    name: "openvpn"
+    build:
+      path: "/tmp/openvpn"
+    tag: "latest"
+    source: "build"
+
+- name: "OpenVPN container"
+  community.docker.docker_container:
+    image: "openvpn:latest"
+    name: "openvpn"
+    capabilities:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun
+    env:
+      ALLOWED_SUBNETS: "192.168.1.0/24"
+    recreate: true
+    restart: true
+    restart_policy: "unless-stopped"
+    state: "present"
+    volumes:
+      - "{{ container_data }}/openvpn/config:/config"
