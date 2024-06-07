@@ -6,5 +6,6 @@
     mode: "0750"
   loop_control:
     loop_var: binary
+  when: app.binaries is defined
   with_items:
     "{{ app.binaries }}"

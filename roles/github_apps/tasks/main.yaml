@@ -1,25 +1,25 @@
 ---
-- name: "github: Create tmp directory"
+- name: "Create tmp directory"
   file:
     path: /tmp/ansible
     state: directory
     mode: '0700'
 
-- name: "github: Download latest releases"
-  unarchive:
-    src: "https://github.com/{{ item.name }}/releases/latest/download/{{ item.asset }}"
+- name: "Download releases"
+  get_url:
+    url: "https://github.com/{{ item.name }}/releases/{{ 'latest/' if item.version == 'latest' }}download/{{ item.version + '/' if item.version != 'latest' }}{{ item.asset }}"
     dest: /tmp/ansible
-    remote_src: yes
-  when: item.version == "latest"
+    mode: "0750"
+  when: not (item.asset.endswith(".tar.gz"))
   with_items:
     "{{ github_releases }}"
 
-- name: "github: Download versioned releases"
+- name: "Download & extract releases"
   unarchive:
-    src: "https://github.com/{{ item.name }}/releases/download/{{ item.version }}/{{ item.asset }}"
+    src: "https://github.com/{{ item.name }}/releases/{{ 'latest/' if item.version == 'latest' }}download/{{ item.version + '/' if item.version != 'latest' }}{{ item.asset }}"
     dest: /tmp/ansible
     remote_src: yes
-  when: item.version != "latest"
+  when: item.asset.endswith(".tar.gz")
   with_items:
     "{{ github_releases }}"
 

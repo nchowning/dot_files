@@ -1,25 +1,44 @@
 ---
 ansible_python_interpreter: /usr/bin/python3
+asdf_plugins_extra:
+  - name: "golang"
+    version: "latest"
+    repo: "https://github.com/asdf-community/asdf-golang.git"
+
 github_releases:
   - name: "derailed/k9s"
     version: "latest"
     asset: "k9s_Linux_amd64.tar.gz"
     binaries:
       - k9s
+
   - name: "ahmetb/kubectx"
     version: "v0.9.5"
     asset: "kubectx_v0.9.5_linux_x86_64.tar.gz"
     binaries:
       - kubectx
+
   - name: "kubernetes/minikube"
     version: "latest"
     asset: "minikube-linux-amd64.tar.gz"
     binaries:
       - source: "out/minikube-linux-amd64"
         dest: "minikube"
+
+  - name: "kubernetes-sigs/kind"
+    version: "latest"
+    asset: "kind-linux-amd64"
+    binaries:
+      - source: "kind-linux-amd64"
+        dest: "kind"
+
+  - name: "cnoe-io/idpbuilder"
+    version: "latest"
+    asset: "idpbuilder-linux-amd64.tar.gz"
+    binaries:
+      - idpbuilder
 optional_roles:
   - asdf
-  - docker
   - python
   - helm
   - github_apps
