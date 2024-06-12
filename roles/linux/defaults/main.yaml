@@ -25,3 +25,26 @@ linux_packages_default:
   - tk-dev
   - xz-utils
   - zlib1g-dev
+
+linux_packages_arch:
+  - git
+  - jq
+  - psutils
+  - tmux
+  - unzip
+  - vim
+  # Python build dependencies
+  - bzip2
+  - curl
+  - gcc
+  - libxml2
+  - make
+  - ncurses
+  - openssl
+  - pkgconf
+  - readline
+  - sqlite
+  - tk
+  - xmlsec
+  - xz
+  - zlib

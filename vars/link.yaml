@@ -13,6 +13,4 @@ github_releases:
       - kubectx
 optional_roles:
   - asdf
-  - python
-  - helm
   - github_apps
