@@ -33,6 +33,7 @@ linux_packages_arch:
   - tmux
   - unzip
   - vim
+  - zsh
   # Python build dependencies
   - bzip2
   - curl
