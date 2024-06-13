@@ -6,11 +6,31 @@ github_releases:
     asset: "k9s_Linux_amd64.tar.gz"
     binaries:
       - k9s
+
   - name: "ahmetb/kubectx"
     version: "v0.9.4"
     asset: "kubectx_v0.9.4_linux_x86_64.tar.gz"
     binaries:
       - kubectx
+
+  - name: "kubernetes-sigs/kind"
+    version: "latest"
+    asset: "kind-linux-amd64"
+    binaries:
+      - source: "kind-linux-amd64"
+        dest: "kind"
+
+  - name: "kubernetes-sigs/kustomize"
+    version: "kustomize/v5.4.2"
+    asset: "kustomize_v5.4.2_linux_amd64.tar.gz"
+    binaries:
+      - kustomize
+
+  - name: "cnoe-io/idpbuilder"
+    version: "latest"
+    asset: "idpbuilder-linux-amd64.tar.gz"
+    binaries:
+      - idpbuilder
 optional_roles:
   - asdf
   - github_apps
