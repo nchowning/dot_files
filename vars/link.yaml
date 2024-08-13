@@ -1,6 +1,13 @@
 ---
 ansible_python_interpreter: /usr/bin/python3
 github_releases:
+  - name: "obsidianmd/obsidian-releases"
+    version: "v1.6.7"
+    asset: "Obsidian-1.6.7.AppImage"
+    binaries:
+      - source: "Obsidian-1.6.7.AppImage"
+        dest: "obsidian"
+
   - name: "derailed/k9s"
     version: "latest"
     asset: "k9s_Linux_amd64.tar.gz"
