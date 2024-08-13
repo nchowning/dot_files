@@ -38,6 +38,13 @@ github_releases:
     asset: "idpbuilder-linux-amd64.tar.gz"
     binaries:
       - idpbuilder
+
+  - name: "vmware-tanzu/velero"
+    version: "v1.14.0"
+    asset: "velero-v1.14.0-linux-amd64.tar.gz"
+    binaries:
+      - source: "velero-v1.14.0-linux-amd64/velero"
+        dest: "velero"
 optional_roles:
   - asdf
   - github_apps
